@@ -21,9 +21,7 @@ public class CategoriaResource{
 	CategoriaService service;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Categoria>> listar() {		
-		Categoria c1 = new Categoria(1L, "informatica");
-		Categoria c2 = new Categoria(2L, "escritorio");
+	public ResponseEntity<List<Categoria>> listar() {	
 		List<Categoria> lista = service.BuscarTodos();		
 		return ResponseEntity.ok().body(lista);
 	}
