@@ -9,9 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.com.ecomerce.resources.exception.StandardError;
-import br.com.ecomerce.services.exceptions.BusinessException;
-import br.com.ecomerce.services.exceptions.DatabaseException;
 import br.com.project.services.exceptions.ObjectNotFoundException;
 
 @ControllerAdvice
