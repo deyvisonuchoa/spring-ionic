@@ -8,10 +8,15 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.project.domain.Categoria;
 import br.com.project.domain.Cidade;
+import br.com.project.domain.Cliente;
+import br.com.project.domain.Endereco;
 import br.com.project.domain.Estado;
 import br.com.project.domain.Produto;
+import br.com.project.domain.enums.TipoCliente;
 import br.com.project.repositories.CategoriaRepository;
 import br.com.project.repositories.CidadeRepository;
+import br.com.project.repositories.ClienteRepository;
+import br.com.project.repositories.EnderecoRepository;
 import br.com.project.repositories.EstadoRepository;
 import br.com.project.repositories.ProdutoRepository;
 
@@ -30,6 +35,12 @@ public class TestConfig implements CommandLineRunner {
 	@Autowired
 	CidadeRepository cidadeRepo;
 
+	@Autowired
+	EnderecoRepository enderecoRepo;
+	
+	@Autowired
+	ClienteRepository clienteRepo;
+	
 	@Override
 	public void run(String... args) throws Exception {		
 		
@@ -61,6 +72,17 @@ public class TestConfig implements CommandLineRunner {
 		
 		estadoRepo.saveAll(Arrays.asList(est1,est2));
 		cidadeRepo.saveAll(Arrays.asList(c1,c2,c3,c4,c5));
+		
+		Cliente cli1 = new Cliente(null, "deyvison uchoa", "deyvisonuchoa@gmqail.com", "11668953781", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("21969647700", "21985301484"));
+		
+		Endereco e1 = new Endereco(null, "rua caminho poder da boa vontade 72", "72", "", "guaratiba", "23020570", cli1, c1);
+		Endereco e2 = new Endereco(null, "rua pajura", "245", "apto 201", "Taquara", "22740210", cli1, c1);
+
+		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+		
+		clienteRepo.save(cli1);
+		enderecoRepo.saveAll(Arrays.asList(e1,e2));
 	}
 
 }
