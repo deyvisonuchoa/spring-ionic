@@ -22,7 +22,7 @@ public class CategoriaService {
 	public Categoria BuscarPorId(Long id) {
 		Categoria obj = repo.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! id: " + id 
-						+ ", tipo: " + Categoria.class.getName()));;
+						+ ", tipo: " + Categoria.class.getName()));
 		return obj;
 	}
 	
