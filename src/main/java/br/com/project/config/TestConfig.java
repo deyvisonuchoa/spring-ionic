@@ -12,6 +12,7 @@ import br.com.project.domain.Cidade;
 import br.com.project.domain.Cliente;
 import br.com.project.domain.Endereco;
 import br.com.project.domain.Estado;
+import br.com.project.domain.ItemPedido;
 import br.com.project.domain.Pagamento;
 import br.com.project.domain.PagamentoComBoleto;
 import br.com.project.domain.PagamentoComCartao;
@@ -24,6 +25,7 @@ import br.com.project.repositories.CidadeRepository;
 import br.com.project.repositories.ClienteRepository;
 import br.com.project.repositories.EnderecoRepository;
 import br.com.project.repositories.EstadoRepository;
+import br.com.project.repositories.ItemPedidoRepository;
 import br.com.project.repositories.PagamentoRepository;
 import br.com.project.repositories.PedidoRepository;
 import br.com.project.repositories.ProdutoRepository;
@@ -54,6 +56,9 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	PagamentoRepository pagamentoRepo;
+	
+	@Autowired
+	ItemPedidoRepository itemPedidoRepo;
 	
 	@Override
 	public void run(String... args) throws Exception {		
@@ -116,6 +121,20 @@ public class TestConfig implements CommandLineRunner {
 		pagamentoRepo.saveAll(Arrays.asList(pgto1,pgto2));
 		
 //		clienteRepo.save(entity)
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepo.saveAll(Arrays.asList(ip1,ip2,ip3));
+		
 	}
 
 }
