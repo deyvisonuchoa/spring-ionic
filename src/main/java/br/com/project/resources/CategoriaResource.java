@@ -1,11 +1,11 @@
 package br.com.project.resources;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -50,6 +50,12 @@ public class CategoriaResource{
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> insert(@PathVariable Long id, @RequestBody Categoria cat){
 		cat = service.update(id, cat);
+		return ResponseEntity.noContent().build();		
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> insert(@PathVariable Long id){
+		service.delete(id);
 		return ResponseEntity.noContent().build();		
 	}
 }

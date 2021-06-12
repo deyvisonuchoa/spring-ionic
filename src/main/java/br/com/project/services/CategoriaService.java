@@ -3,10 +3,12 @@ package br.com.project.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.project.domain.Categoria;
 import br.com.project.repositories.CategoriaRepository;
+import br.com.project.services.exceptions.DataIntegrityException;
 import br.com.project.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -41,6 +43,15 @@ public class CategoriaService {
 		findById(cat.getId());
 		
 		return repo.save(cat);
+	}
+
+	public void delete(Long id) {
+		findById(id);
+		try {
+			repo.deleteById(id);			
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possivel remover uma categoria que possui produtos");
+		}
 	}
 	
 }
