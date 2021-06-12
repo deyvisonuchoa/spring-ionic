@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,14 +27,14 @@ public class CategoriaResource{
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Categoria>> listar() {	
-		List<Categoria> lista = service.BuscarTodos();		
+		List<Categoria> lista = service.find();		
 		return ResponseEntity.ok().body(lista);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Categoria> buscarPorId(@PathVariable Long id) {
 		
-		Categoria obj = service.BuscarPorId(id);
+		Categoria obj = service.findById(id);
 		
 		return ResponseEntity.ok().body(obj);
 	}
@@ -44,5 +45,11 @@ public class CategoriaResource{
 		URI uri = ServletUriComponentsBuilder.
 				fromCurrentRequest().path("/{id}").buildAndExpand(cat.getId()).toUri();
 		return ResponseEntity.created(uri).build();		
+	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Void> insert(@PathVariable Long id, @RequestBody Categoria cat){
+		cat = service.update(id, cat);
+		return ResponseEntity.noContent().build();		
 	}
 }
