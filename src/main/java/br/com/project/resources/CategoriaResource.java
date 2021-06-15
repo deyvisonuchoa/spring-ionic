@@ -2,6 +2,7 @@ package br.com.project.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.project.domain.Categoria;
+import br.com.project.dto.CategoriaDTO;
 import br.com.project.services.CategoriaService;
 
 @RestController
@@ -26,8 +28,10 @@ public class CategoriaResource{
 	CategoriaService service;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Categoria>> listar() {	
-		List<Categoria> lista = service.find();		
+	public ResponseEntity<List<CategoriaDTO>> listar() {	
+		List<CategoriaDTO> lista = service.find()
+				.stream().map( obj -> new CategoriaDTO(obj))
+				.collect(Collectors.toList());		
 		return ResponseEntity.ok().body(lista);
 	}
 	
