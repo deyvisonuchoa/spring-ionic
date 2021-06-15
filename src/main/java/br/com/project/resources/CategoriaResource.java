@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +34,13 @@ public class CategoriaResource{
 		List<CategoriaDTO> lista = service.find()
 				.stream().map( obj -> new CategoriaDTO(obj))
 				.collect(Collectors.toList());		
+		return ResponseEntity.ok().body(lista);
+	}
+	
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/pageable")
+	public ResponseEntity<Page<CategoriaDTO>> listarPaginas(Pageable page) {	
+		Page<CategoriaDTO> lista = service.findPage(page);
 		return ResponseEntity.ok().body(lista);
 	}
 	
