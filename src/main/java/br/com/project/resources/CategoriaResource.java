@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,16 +55,16 @@ public class CategoriaResource{
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> insert(@RequestBody Categoria cat){
-		cat = service.insert(cat);
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO obj){
+		Categoria cat = service.insert(service.fromDTO(obj));
 		URI uri = ServletUriComponentsBuilder.
 				fromCurrentRequest().path("/{id}").buildAndExpand(cat.getId()).toUri();
 		return ResponseEntity.created(uri).build();		
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> insert(@PathVariable Long id, @RequestBody Categoria cat){
-		cat = service.update(id, cat);
+	public ResponseEntity<Void> insert(@PathVariable Long id,@Valid  @RequestBody CategoriaDTO cat){
+		service.update(id, service.fromDTO(cat));
 		return ResponseEntity.noContent().build();		
 	}
 	

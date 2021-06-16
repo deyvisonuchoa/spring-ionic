@@ -63,4 +63,8 @@ public class CategoriaService {
 		return repo.findAll(pageable)
 				.map( obj -> new CategoriaDTO(obj));
 	}
+	
+	public Categoria fromDTO( CategoriaDTO obj) {
+		return new Categoria(obj.getId(), obj.getNome());
+	}
 }
