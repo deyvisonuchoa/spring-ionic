@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.project.domain.Categoria;
 import br.com.project.domain.Cliente;
+import br.com.project.dto.CadastroClienteDTO;
 import br.com.project.dto.ClienteDTO;
 import br.com.project.services.ClienteService;
 
@@ -51,13 +52,14 @@ public class ClienteResource{
 		return ResponseEntity.ok().body(lista);
 	}
 	
-//	@PostMapping
-//	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO obj){
-//		Categoria cat = service.insert(service.fromDTO(obj));
-//		URI uri = ServletUriComponentsBuilder.
-//				fromCurrentRequest().path("/{id}").buildAndExpand(cat.getId()).toUri();
-//		return ResponseEntity.created(uri).build();		
-//	}
+	@PostMapping
+	public ResponseEntity<Void> insert(@Valid @RequestBody CadastroClienteDTO objDto){
+		Cliente obj = service.fromDTO(objDto);
+		service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.
+				fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();		
+	}
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> insert(@PathVariable Long id,@Valid  @RequestBody ClienteDTO cat){

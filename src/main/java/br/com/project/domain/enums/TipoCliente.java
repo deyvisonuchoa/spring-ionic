@@ -3,18 +3,18 @@ package br.com.project.domain.enums;
 public enum TipoCliente {
 	
 	
-	PESSOAFISICA(1, "Pessoa Física"),
-	PESSOAJURIDICA(2, "Pessoa Jurídica");
+	PESSOAFISICA(1L, "Pessoa Física"),
+	PESSOAJURIDICA(2L, "Pessoa Jurídica");
 	
-	private int cod;
+	private Long cod;
 	private String descricao;
 	
-	private TipoCliente(int cod, String descricao) {
+	private TipoCliente(Long cod, String descricao) {
 		this.cod = cod;
 		this.descricao = this.descricao;
 	}
 
-	public int getCod() {
+	public Long getCod() {
 		return cod;
 	}
 
@@ -22,7 +22,7 @@ public enum TipoCliente {
 		return descricao;
 	}
 	
-	public static TipoCliente toEnum(Integer cod) {
+	public static TipoCliente toEnum(Long cod) {
 		
 		if (cod == null)
 			return null;
