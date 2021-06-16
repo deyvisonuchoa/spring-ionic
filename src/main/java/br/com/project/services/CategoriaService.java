@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.project.domain.Categoria;
+import br.com.project.domain.Cliente;
 import br.com.project.dto.CategoriaDTO;
 import br.com.project.repositories.CategoriaRepository;
 import br.com.project.services.exceptions.DataIntegrityException;
@@ -41,12 +42,10 @@ public class CategoriaService {
 		return repo.save(cat);
 	}
 	
-	public Categoria update(Long id, Categoria cat) {
-		cat.setId(id);
-		
-		findById(cat.getId());
-		
-		return repo.save(cat);
+	public Categoria update(Long id, Categoria obj) {
+		Categoria newObj = findById(id);
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 
 	public void delete(Long id) {
@@ -67,4 +66,9 @@ public class CategoriaService {
 	public Categoria fromDTO( CategoriaDTO obj) {
 		return new Categoria(obj.getId(), obj.getNome());
 	}
+	
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
+	}
+
 }
