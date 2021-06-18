@@ -25,7 +25,6 @@ public class Endereco implements Serializable{
 	private String bairro;
 	private String cep;
 	
-	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
@@ -99,6 +98,7 @@ public class Endereco implements Serializable{
 		this.cep = cep;
 	}
 
+	@JsonIgnore
 	public Cliente getCliente() {
 		return cliente;
 	}
