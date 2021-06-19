@@ -3,7 +3,6 @@ spring:
         active: ${APP_PROFILE:test}
 
     jpa:
-        open-in-view: false
         show-sql: true
         properties:
             hibernate:

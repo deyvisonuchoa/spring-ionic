@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +31,7 @@ public class Produto implements Serializable{
 	private String nome;
 	private Double preco;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name= "produto_categoira",
 	joinColumns = @JoinColumn(name = "id_produto"),
 	inverseJoinColumns = @JoinColumn(name = "id_categoria")
