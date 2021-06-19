@@ -23,6 +23,9 @@ public class CadastroClienteDTO {
 	
 	private Long tipo;
 	
+	@NotEmpty
+	private String senha;
+	
 	@NotEmpty(message = "Preenchimento obrigatorio")
 	private String logradouro;
 	
@@ -97,8 +100,18 @@ public class CadastroClienteDTO {
 	public void setTipo(Long tipo) {
 		this.tipo = tipo;
 	}
+	
+	
 
-	public String getLogradouro() {
+	public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getLogradouro() {
 		return logradouro;
 	}
 

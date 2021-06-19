@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,9 @@ import br.com.project.services.exceptions.ObjectNotFoundException;
 @Service
 public class ClienteService {
 	
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+    
 	@Autowired
 	private ClienteRepository clienteRepo;
 	
@@ -69,13 +73,13 @@ public class ClienteService {
 	}
 	
 	public Cliente fromDTO( ClienteDTO objDTO) {
-		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null);
+		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null, null);
 //		throw new UnsupportedOperationException();
 	}
 	
 	public Cliente fromDTO( CadastroClienteDTO objDTO) {
 		
-		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(), TipoCliente.toEnum(objDTO.getTipo()));
+		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(), TipoCliente.toEnum(objDTO.getTipo()), encoder.encode(objDTO.getSenha()));
 		
 		Cidade cid = new Cidade(objDTO.getCidadeId(), null, null);
 		
