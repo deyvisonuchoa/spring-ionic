@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,6 +56,7 @@ public class CategoriaResource{
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO obj){
 		Categoria cat = service.insert(service.fromDTO(obj));
 		URI uri = ServletUriComponentsBuilder.
@@ -63,12 +65,14 @@ public class CategoriaResource{
 	}
 	
 	@PutMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Void> insert(@PathVariable Long id,@Valid  @RequestBody CategoriaDTO cat){
 		service.update(id, service.fromDTO(cat));
 		return ResponseEntity.noContent().build();		
 	}
 	
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Void> insert(@PathVariable Long id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();		

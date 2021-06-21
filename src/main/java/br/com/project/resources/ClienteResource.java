@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.project.domain.Categoria;
 import br.com.project.domain.Cliente;
 import br.com.project.dto.CadastroClienteDTO;
 import br.com.project.dto.ClienteDTO;
@@ -46,7 +47,8 @@ public class ClienteResource{
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/pageable")
+	@GetMapping(value = "/pageable")
+    @PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Page<ClienteDTO>> listarPaginas(Pageable page) {	
 		Page<ClienteDTO> lista = service.findPage(page);
 		return ResponseEntity.ok().body(lista);
@@ -62,12 +64,13 @@ public class ClienteResource{
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> insert(@PathVariable Long id,@Valid  @RequestBody ClienteDTO cat){
+	public ResponseEntity<Void> update(@PathVariable Long id,@Valid  @RequestBody ClienteDTO cat){
 		service.update(id, service.fromDTO(cat));
 		return ResponseEntity.noContent().build();		
 	}
 	
 	@DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Void> insert(@PathVariable Long id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();		
