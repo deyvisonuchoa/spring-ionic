@@ -11,3 +11,7 @@ spring:
 server:
     error:
       include-stacktrace: never 
+      
+jwt:
+  secret: sequenciaCaracteresToken
+  expiration: 60000  
