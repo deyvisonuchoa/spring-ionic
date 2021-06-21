@@ -1,23 +1,22 @@
 package br.com.project.resources;
 
 import java.net.URI;
-import java.util.List;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.project.domain.Categoria;
 import br.com.project.domain.Pedido;
-import br.com.project.dto.CategoriaDTO;
 import br.com.project.services.PedidoService;
 
 @RestController
@@ -27,13 +26,13 @@ public class PedidoResource{
 	@Autowired
 	PedidoService service;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Pedido>> listar() {	
-		List<Pedido> lista = service.buscarTodos();		
-		return ResponseEntity.ok().body(lista);
+	@GetMapping
+	public ResponseEntity<Page<Pedido>> listar(@PageableDefault(sort = "data", direction = Sort.Direction.DESC) Pageable pageable) {	
+	    Page<Pedido> pedidos = service.buscarTodosPaginados(pageable);		
+		return ResponseEntity.ok().body(pedidos);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<Pedido> buscarPorId(@PathVariable Long id) {
 		
 		Pedido obj = service.buscarPorId(id);
@@ -41,7 +40,7 @@ public class PedidoResource{
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PostMapping(consumes = "application/json")
+	@PostMapping
 	public ResponseEntity<Void> insert(@RequestBody Pedido obj){
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.
