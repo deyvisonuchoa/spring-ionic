@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import br.com.project.services.exceptions.AuthorizationException;
 import br.com.project.services.exceptions.DataIntegrityException;
 import br.com.project.services.exceptions.ObjectNotFoundException;
 
@@ -54,6 +55,17 @@ public class ResourceExceptionHandler {
 		
 		return ResponseEntity.status(status).body(err);
 	}
+	
+	@ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> DataIntegrityException(AuthorizationException e,
+            HttpServletRequest request) {
+
+        String error = "Erro de autorização";
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
+                request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
 
 //	@ExceptionHandler(DatabaseException.class)
 //	public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request) {

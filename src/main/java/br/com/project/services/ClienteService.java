@@ -13,11 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.project.domain.Cidade;
 import br.com.project.domain.Cliente;
 import br.com.project.domain.Endereco;
+import br.com.project.domain.enums.Perfil;
 import br.com.project.domain.enums.TipoCliente;
 import br.com.project.dto.CadastroClienteDTO;
 import br.com.project.dto.ClienteDTO;
 import br.com.project.repositories.ClienteRepository;
 import br.com.project.repositories.EnderecoRepository;
+import br.com.project.security.UserDetail;
+import br.com.project.services.exceptions.AuthorizationException;
 import br.com.project.services.exceptions.DataIntegrityException;
 import br.com.project.services.exceptions.ObjectNotFoundException;
 
@@ -38,6 +41,11 @@ public class ClienteService {
 	}
 	
 	public Cliente buscarPorId(Long id) {
+	    
+	    UserDetail user = UserService.authenticated();
+	    if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId()))
+	        throw new AuthorizationException("Acesso negado");
+	    
 		Cliente cliente = clienteRepo.findById(id)
 				.orElseThrow( () -> new ObjectNotFoundException("Cliente não encontrado,"
 						+ " para o id = " + id));
