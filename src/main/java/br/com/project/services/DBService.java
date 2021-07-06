@@ -13,6 +13,7 @@ import br.com.project.domain.Cidade;
 import br.com.project.domain.Cliente;
 import br.com.project.domain.Endereco;
 import br.com.project.domain.Estado;
+import br.com.project.domain.FaseProjeto;
 import br.com.project.domain.ItemPedido;
 import br.com.project.domain.Pagamento;
 import br.com.project.domain.PagamentoComBoleto;
@@ -27,6 +28,7 @@ import br.com.project.repositories.CidadeRepository;
 import br.com.project.repositories.ClienteRepository;
 import br.com.project.repositories.EnderecoRepository;
 import br.com.project.repositories.EstadoRepository;
+import br.com.project.repositories.FaseProjetoRepository;
 import br.com.project.repositories.ItemPedidoRepository;
 import br.com.project.repositories.PagamentoRepository;
 import br.com.project.repositories.PedidoRepository;
@@ -64,6 +66,9 @@ public class DBService {
     
     @Autowired
     ItemPedidoRepository itemPedidoRepo;
+    
+    @Autowired
+    FaseProjetoRepository faseRepo;
     
     public void instanciateTestDatabase() throws ParseException {
         
@@ -178,6 +183,22 @@ public class DBService {
         p3.getItens().addAll(Arrays.asList(ip2));
         
         itemPedidoRepo.saveAll(Arrays.asList(ip1,ip2,ip3));
+        
+        FaseProjeto fase = new FaseProjeto(null, "001", "d");
+        FaseProjeto fase2 = new FaseProjeto(null, "002", "b");
+        FaseProjeto fase3 = new FaseProjeto(null, "003", "a");
+        FaseProjeto fase4 = new FaseProjeto(null, "004", "c");
+        FaseProjeto fase5 = new FaseProjeto(null, "005", "l");
+        FaseProjeto fase6 = new FaseProjeto(null, "006", "j");
+        FaseProjeto fase7 = new FaseProjeto(null, "007", "q");
+        FaseProjeto fase8 = new FaseProjeto(null, "008", "e");
+        FaseProjeto fase9 = new FaseProjeto(null, "009", "y");
+        FaseProjeto fase10 = new FaseProjeto(null, "010", "i");
+        FaseProjeto fase11 = new FaseProjeto(null, "011", "f");
+        FaseProjeto fase12 = new FaseProjeto(null, "012", "a");
+        FaseProjeto fase13 = new FaseProjeto(null, "013", "ada");
+        
+        faseRepo.saveAll(Arrays.asList(fase,fase2,fase3,fase4,fase5,fase6,fase7,fase8,fase9,fase10,fase11, fase12, fase13));
     }
 
 }
