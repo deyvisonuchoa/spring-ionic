@@ -13,7 +13,6 @@ import br.com.project.domain.Cidade;
 import br.com.project.domain.Cliente;
 import br.com.project.domain.Endereco;
 import br.com.project.domain.Estado;
-import br.com.project.domain.FaseProjeto;
 import br.com.project.domain.ItemPedido;
 import br.com.project.domain.Pagamento;
 import br.com.project.domain.PagamentoComBoleto;
@@ -23,16 +22,23 @@ import br.com.project.domain.Produto;
 import br.com.project.domain.enums.EstadoPagamento;
 import br.com.project.domain.enums.Perfil;
 import br.com.project.domain.enums.TipoCliente;
+import br.com.project.domain.mestra.ClienteMestra;
+import br.com.project.domain.mestra.FaseProjeto;
+import br.com.project.domain.mestra.Metodologia;
+import br.com.project.domain.mestra.OrdemFase;
 import br.com.project.repositories.CategoriaRepository;
 import br.com.project.repositories.CidadeRepository;
 import br.com.project.repositories.ClienteRepository;
 import br.com.project.repositories.EnderecoRepository;
 import br.com.project.repositories.EstadoRepository;
-import br.com.project.repositories.FaseProjetoRepository;
 import br.com.project.repositories.ItemPedidoRepository;
 import br.com.project.repositories.PagamentoRepository;
 import br.com.project.repositories.PedidoRepository;
 import br.com.project.repositories.ProdutoRepository;
+import br.com.project.repositories.mestra.ClienteMestraRepository;
+import br.com.project.repositories.mestra.FaseProjetoRepository;
+import br.com.project.repositories.mestra.MetodologiaRepository;
+import br.com.project.repositories.mestra.OrdemFaseRepository;
 
 @Service
 public class DBService {
@@ -69,6 +75,15 @@ public class DBService {
     
     @Autowired
     FaseProjetoRepository faseRepo;
+    
+    @Autowired
+    ClienteMestraRepository cliRepo;
+
+    @Autowired
+    MetodologiaRepository metRepo;
+    
+    @Autowired
+    OrdemFaseRepository ordemFasesRepo;
     
     public void instanciateTestDatabase() throws ParseException {
         
@@ -199,6 +214,24 @@ public class DBService {
         FaseProjeto fase13 = new FaseProjeto(null, "013", "ada");
         
         faseRepo.saveAll(Arrays.asList(fase,fase2,fase3,fase4,fase5,fase6,fase7,fase8,fase9,fase10,fase11, fase12, fase13));
+        
+        ClienteMestra clie = new ClienteMestra(null, "001", "Prevdata");
+        ClienteMestra clie2 = new ClienteMestra(null, "002", "Faeces");
+        ClienteMestra clie3 = new ClienteMestra(null, "003", "Nucleos");
+        ClienteMestra clie4 = new ClienteMestra(null, "004", "Cifrão");
+        ClienteMestra clie5 = new ClienteMestra(null, "005", "Prevmestra");
+        ClienteMestra clie6 = new ClienteMestra(null, "006", "Telos");
+        ClienteMestra clie7 = new ClienteMestra(null, "007", "Fucap");
+        
+        cliRepo.saveAll(Arrays.asList(clie, clie2, clie3, clie4, clie5, clie6, clie7));
+        
+        Metodologia met = new Metodologia(null, "001", "incremental");
+        
+        OrdemFase ordemFase = new OrdemFase(null, 1l, fase, met);
+        OrdemFase ordemFase2 = new OrdemFase(null, 2l, fase4, met);
+        OrdemFase ordemFase3 = new OrdemFase(null, 3l, fase8, met);
+        
+        metRepo.saveAll(Arrays.asList(met));
+        ordemFasesRepo.saveAll(Arrays.asList(ordemFase, ordemFase2, ordemFase3));
     }
-
 }

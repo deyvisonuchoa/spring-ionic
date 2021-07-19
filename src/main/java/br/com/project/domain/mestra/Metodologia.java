@@ -1,4 +1,4 @@
-package br.com.project.domain;
+package br.com.project.domain.mestra;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,14 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.OneToMany;
 
 @Entity
-public class FaseProjeto implements Serializable{
+public class Metodologia implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -25,10 +21,13 @@ public class FaseProjeto implements Serializable{
 	private String codigo;
 	private String descricao;
 	
-	public FaseProjeto() {		
+	@OneToMany(mappedBy = "metodologia", cascade = CascadeType.ALL)
+    private List<OrdemFase> fases = new ArrayList<>(); 
+	
+	public Metodologia() {		
 	}
 	
-	public FaseProjeto(Long id, String codigo, String descricao) {
+	public Metodologia(Long id, String codigo, String descricao) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
@@ -56,6 +55,10 @@ public class FaseProjeto implements Serializable{
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public List<OrdemFase> getFases() {
+        return fases;
     }
 	
 }
